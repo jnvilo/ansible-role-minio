@@ -1,0 +1,23 @@
+[Unit]
+Description=MinIO
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=minio-user
+Group=minio-user
+WorkingDirectory=/data
+Environment=HOME=/data
+ExecStart=/usr/local/bin/minio server /data
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=65536
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=30s
+SendSIGKILL=yes
+SuccessExitStatus=0
+
+[Install]
+WantedBy=multi-user.target
+
